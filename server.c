@@ -11,8 +11,8 @@
 // funcao que verifica se existe ficheiro e enviar mensagem para o cliente
 bool file_exists(const char *filename,int client_sock, int f) {
     FILE *file_ptr = fopen(filename, "r");
-    if (file_ptr != NULL && f==2) {
-    // se existir um ficheiro e estiver a fazer login, envia uma mensagem a pedir a password
+    if (file_ptr != NULL) {
+   // se existir um ficheiro e estiver a fazer login, envia uma mensagem a pedir a password
 if (send(client_sock, "\nInsert your password: ", strlen("\nInsert your password: "), 0) == -1) {
             perror("Error sending menu to client");
             exit(EXIT_FAILURE);
@@ -21,11 +21,12 @@ if (send(client_sock, "\nInsert your password: ", strlen("\nInsert your password
         return true;
     }
 
-  if (file_ptr != NULL && f==1) {
-    // se existir um ficheiro e tiver a fazer sign-in, envia uma mensagem a dizer que esse utilizador ja existe no sign-in
+if(file_ptr == NULL && f==1){if (send(client_sock, "\nUsername accepted!\n", strlen("\nUsername accepted!\n"), 0) == -1) {
+            perror("Error sending menu to client");
+            exit(EXIT_FAILURE);
+        }
 
-        return true;
-    }
+return false;}
 // se nao existir ficheiro e estiver a fazer login, envia mensagem a informar o cliente que o utilizador nao foi encontrado
 if (send(client_sock, "\nUsername not found\n\n", strlen("\nUsername not found\n\n"), 0) == -1) {
             perror("Error sending menu to client");
@@ -65,7 +66,7 @@ bool search_password(const char *filename, const char *password, int client_sock
 
         // Compara a passsword lida com a do ficheiro
         if (strcmp(buffer, password) == 0) {
-if (send(client_sock, "\n\nLogin successful!\n\n", strlen("\n\nLogin successful!\n\n"), 0) == -1) {
+if (send(client_sock, "\nLogin successful!\n\n", strlen("\nLogin successful!\n\n"), 0) == -1) {
             perror("Error sending menu to client");
             exit(EXIT_FAILURE);
         }
@@ -89,7 +90,7 @@ bool sign_up(const char *filename,int client_sock) {
     if (file_exists(filename,client_sock,1)) {
     //se existir envia mensagem de erro
         printf("File '%s' already exists.\n", filename);
-if (send(client_sock, "\nThis username is alerady in use. Please try again\n\n", strlen("\nThis username is alerady in use. Please try again\n\n"), 0) == -1) {
+if (send(client_sock, "\n\nThis username is alerady in use. Please try again\n\n", strlen("\n\nThis username is alerady in use. Please try again\n\n"), 0) == -1) {
             perror("Error sending menu to client");
             exit(EXIT_FAILURE);
         }
