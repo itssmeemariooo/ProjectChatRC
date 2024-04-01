@@ -12,15 +12,10 @@ This project is a chat application designed for communication among multiple use
 - Programming Language: C
 - Protocol: TCP/IP.
 
-## Author
-
-- [Author's Name](link to author's profile)
-
 ## Usage Instructions
 
-[Insert installation and execution instructions for the project, if applicable]
-
-## License
-
-[Insert type of license, e.g., MIT License, GNU General Public License]
-
+- Download both server.c and client.c files and compile them using a C compiler.
+- Run the compiled server executable on the server machine.
+- Run the compiled client executable on each client machine.
+- Ensure that all machines are on the same local network.
+- This code is compatible with Unix-like operating systems. It was developed and tested on Ubuntu 22.04.4 LTS.
